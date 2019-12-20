@@ -43,7 +43,7 @@ export class Player {
         if (valueOfPocket > 7 && valueOfPocket < 10) {
           return call();
         }
-        return raise();
+        return raisePot(1);
       }
       case Turns.RIVER: {
         const countPlayers = countPlayersInGame(gameState.players);
