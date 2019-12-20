@@ -51,7 +51,7 @@ export class Player {
         } else if (valueOfPocket >= 48) {
           return raise();
         }
-        return call();
+        return betCallback(0);
       }
       default: {
         return call();
