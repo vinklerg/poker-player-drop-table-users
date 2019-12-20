@@ -18,6 +18,9 @@ export class Player {
         gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.minimum_raise,
       );
 
+    const raisePot = (i: number) =>
+      betCallback(gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.pot * i);
+
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
     const holeCards = player['hole_cards'];
@@ -47,9 +50,10 @@ export class Player {
         if (szinInpocket) {
           valueOfPocket = valueOfPocket * 2;
         }
-        if (valueOfPocket > 18 && valueOfPocket < 48) {
+        if (valueOfPocket > 18 && valueOfPocket < 40) {
           return call();
-        } else if (valueOfPocket >= 48) {
+        }
+        if (valueOfPocket >= 40) {
           return raise();
         }
         return betCallback(0);
@@ -66,13 +70,16 @@ export class Player {
       default: {
         const hasNewpairs = communityCards.some(card => holeCards.some(holeCard => holeCard.rank === card.rank));
         if (hasNewpairs) {
-          return raise();
+          return raisePot(1);
         }
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
         ).sort(x => x.length)[0].length;
+        if (numOfColors >= 5) {
+          return raisePot(1);
+        }
         if (numOfColors >= 4) {
-          return raise();
+          return raisePot(0.5);
         }
         return call();
       }
@@ -82,9 +89,11 @@ export class Player {
   public getTurn(cCards: Card[]) {
     if (cCards.length === 3) {
       return Turns.FLOP;
-    } else if (cCards.length === 4) {
+    }
+    if (cCards.length === 4) {
       return Turns.TURN;
-    } else if (cCards.length === 5) {
+    }
+    if (cCards.length === 5) {
       return Turns.RIVER;
     }
     return Turns.PREFLOP;
