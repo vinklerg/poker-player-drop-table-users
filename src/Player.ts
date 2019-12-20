@@ -8,6 +8,14 @@ import { GameState } from './interfaces/game-state';
 
 export class Player {
   public betRequest(gameState: GameState, betCallback: (bet: number) => void): void {
+    const call = () => {
+      betCallback(gameState.current_buy_in - gameState.players[gameState.in_action].bet);
+    };
+
+    const raise = () => {
+      betCallback(gameState.current_buy_in - gameState.players[gameState.in_action].bet + gameState.minimum_raise);
+    };
+
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
     const holeCards = player['hole_cards'];
@@ -22,6 +30,7 @@ export class Player {
 
     const maxBet = Math.max(...playerBets);
 
+    return raise();
     switch (turn) {
       case Turns.PREFLOP: {
         break;
@@ -35,34 +44,6 @@ export class Player {
       case Turns.RIVER: {
         break;
       }
-    }
-
-    const rank = communityCards
-      .map(card => card.rank)
-      .some(communityCardRank => {
-        return holeCards.map(card => card.rank).some(cardRank => cardRank === communityCardRank);
-      });
-
-    const handValue = holeCards.map(card => parseInt(card.rank) || 12).reduce((acc, curr) => acc + curr, 0);
-
-    const color = communityCards
-      .map(card => card.suit)
-      .some(communityCardRank => {
-        return holeCards.map(card => card.suit).some(cardRank => cardRank === communityCardRank);
-      });
-
-    const ourCardsOneColor = holeCards[0].suit === holeCards[1].suit;
-
-    return betCallback(maxBet + gameState.small_blind);
-    if (handValue > 17 || ourCardsOneColor) {
-      betCallback(gameState.pot * 0.3);
-    } else if (rank || color) {
-      if (maxBet > player.bet) {
-        return betCallback(maxBet + gameState.small_blind);
-      }
-      return betCallback(maxBet);
-    } else {
-      return betCallback(gameState['small_blind'] * 1);
     }
   }
 
