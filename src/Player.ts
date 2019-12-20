@@ -24,12 +24,6 @@ export class Player {
 
     const turn = this.getTurn(communityCards);
 
-    const playerBets = gameState.players.map(player => {
-      return player.bet;
-    });
-
-    const maxBet = Math.max(...playerBets);
-
     switch (turn) {
       case Turns.PREFLOP: {
         return raise();
