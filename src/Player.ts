@@ -70,10 +70,6 @@ export class Player {
         return call();
       }
       default: {
-        const hasNewpairs = communityCards.some(card => holeCards.some(holeCard => holeCard.rank === card.rank));
-        if (hasNewpairs) {
-          return raisePot(1);
-        }
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
         ).sort((a, b) => b.length - a.length)[0].length;
