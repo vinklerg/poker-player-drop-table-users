@@ -51,6 +51,6 @@ export const cardColumnValue = [
 
 export const getHandValue = (hand: Hand): number => {
   const columnNum = cardColumnValue.indexOf(hand[0].rank);
-  const lineNum = cardColumnValue.indexOf(hand[0].rank);
+  const lineNum = cardColumnValue.indexOf(hand[1].rank);
   return matrix[columnNum][lineNum];
 };
