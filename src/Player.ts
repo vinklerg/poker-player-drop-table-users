@@ -4,7 +4,7 @@ enum Turns {
   TURN = 'turn',
   RIVER = 'river',
 }
-import { GameState } from './interfaces/game-state';
+import { Card, GameState } from './interfaces/game-state';
 
 export class Player {
   public betRequest(gameState: GameState, betCallback: (bet: number) => void): void {
@@ -20,9 +20,9 @@ export class Player {
       betCallback(gameState.current_buy_in - gameState.players[gameState.in_action].bet + gameState.minimum_raise);
     };
 
-    const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
+    // const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
-    const holeCards = player['hole_cards'];
+    // const holeCards = player['hole_cards'];
 
     const communityCards = gameState['community_cards'];
 
@@ -44,7 +44,7 @@ export class Player {
     }
   }
 
-  public getTurn(cCards) {
+  public getTurn(cCards: Card[]) {
     if (cCards.length === 3) {
       return Turns.FLOP;
     } else if (cCards.length === 4) {
@@ -55,7 +55,7 @@ export class Player {
     return Turns.PREFLOP;
   }
 
-  public showdown(gameState: any): void {}
+  public showdown(): void {}
 }
 
 export default Player;
