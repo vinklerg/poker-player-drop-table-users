@@ -21,9 +21,6 @@ export class Player {
     });
 
     const maxBet = Math.max(...playerBets);
-    if (maxBet > player.bet) {
-      return betCallback(maxBet + gameState.small_blind);
-    }
 
     switch (turn) {
       case Turns.PREFLOP: {
@@ -59,7 +56,10 @@ export class Player {
     if (handValue > 17 || ourCardsOneColor) {
       betCallback(gameState.pot * 0.3);
     } else if (rank || color) {
-      return betCallback(maxBet - player.bet);
+      if (maxBet > player.bet) {
+        return betCallback(maxBet + gameState.small_blind);
+      }
+      return betCallback(maxBet);
     } else {
       return betCallback(gameState['small_blind'] * 1);
     }
