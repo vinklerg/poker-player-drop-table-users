@@ -54,13 +54,8 @@ export class Player {
         return holeCards.map(card => card.suit).some(cardRank => cardRank === communityCardRank);
       });
 
-<<<<<<< HEAD
-    if (handValue > 18) {
+    if (handValue > 17) {
       betCallback(gameState.pot * 0.3);
-=======
-    if (handValue > 20) {
-      return betCallback(gameState['small_blind'] * 10);
->>>>>>> 855ef7634a7689fbdda50a4509b9ae0c2dbe2296
     } else if (rank || color) {
       return betCallback(gameState['small_blind'] * 5);
     } else {
