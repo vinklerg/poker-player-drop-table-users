@@ -9,7 +9,7 @@ import { GameState } from './interfaces/game-state';
 export class Player {
   public betRequest(gameState: GameState, betCallback: (bet: number) => void): void {
     const call = () => {
-      betCallback(gameState.current_buy_in - gameState.players[gameState.in_action].bet);
+      betCallback(gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0));
     };
 
     const raise = () => {
@@ -17,7 +17,9 @@ export class Player {
         'DEBUG ',
         gameState.current_buy_in - gameState.players[gameState.in_action].bet + gameState.minimum_raise,
       );
-      betCallback(gameState.current_buy_in - gameState.players[gameState.in_action].bet + gameState.minimum_raise);
+      betCallback(
+        gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.minimum_raise,
+      );
     };
 
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
