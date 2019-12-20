@@ -28,17 +28,43 @@ export class Player {
 
     const turn = this.getTurn(communityCards);
 
+    const playerBets = gameState.players.map(player => {
+      return player.bet;
+    });
+
+    const maxBet = Math.max(...playerBets);
+
+    let valueOfPocket = 18;
+    const pairsInPocket = true;
+    const szinInpocket = true;
+
     switch (turn) {
       case Turns.PREFLOP: {
-        return raise();
+        console.log('in preflop');
+        if (pairsInPocket) {
+          console.log('pairs');
+          if (valueOfPocket < 14) {
+            console.log('should call 1');
+            return call();
+          }
+          console.log('should raise 1');
+          return raise();
+        }
+        if (szinInpocket) {
+          console.log('szin');
+          valueOfPocket = valueOfPocket * 2;
+        }
+        if (valueOfPocket > 18 && valueOfPocket < 48) {
+          console.log('should call 2');
+          return call();
+        } else if (valueOfPocket >= 48) {
+          console.log('should raise 2');
+          return raise();
+        }
+        console.log('should fold 1');
+        return betCallback(0);
       }
-      case Turns.FLOP: {
-        return call();
-      }
-      case Turns.TURN: {
-        return call();
-      }
-      case Turns.RIVER: {
+      default: {
         return call();
       }
     }
