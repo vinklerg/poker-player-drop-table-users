@@ -33,12 +33,6 @@ export class Player {
 
     const turn = this.getTurn(communityCards);
 
-    // const playerBets = gameState.players.map(player => {
-    //   return player.bet;
-    // });
-
-    // const maxBet = Math.max(...playerBets);
-
     let valueOfPocket = getHandValue([player.hole_cards[0], player.hole_cards[1]]);
 
     switch (turn) {
@@ -58,26 +52,22 @@ export class Player {
 
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
-        ).sort(x => x.length)[0].length;
+        ).sort((a, b) => b.length - a.length)[0].length;
         const numOfRanks = Object.values(
           groupBy([...communityCards.map(card => card.rank), ...holeCards.map(card => card.rank)]),
-        ).sort(x => x.length)[0].length;
+        ).sort((a, b) => b.length - a.length)[0].length;
         if (numOfColors >= 5 || numOfRanks >= 3) {
           return raisePot(1);
         }
         return call();
       }
       default: {
-        const hasNewpairs = communityCards.some(card => holeCards.some(holeCard => holeCard.rank === card.rank));
-        if (hasNewpairs) {
-          return raisePot(1);
-        }
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
-        ).sort(x => x.length)[0].length;
+        ).sort((a, b) => b.length - a.length)[0].length;
         const numOfRanks = Object.values(
           groupBy([...communityCards.map(card => card.rank), ...holeCards.map(card => card.rank)]),
-        ).sort(x => x.length)[0].length;
+        ).sort((a, b) => b.length - a.length)[0].length;
         if (numOfColors >= 5 || numOfRanks >= 3) {
           return raisePot(1);
         }
