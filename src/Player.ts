@@ -19,7 +19,7 @@ export class Player {
 
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
-    // const holeCards = player['hole_cards'];
+    const holeCards = player['hole_cards'];
 
     const communityCards = gameState['community_cards'];
 
@@ -54,6 +54,10 @@ export class Player {
         return betCallback(0);
       }
       default: {
+        const hasNewpairs = communityCards.some(card => holeCards.some(holeCard => holeCard.rank === card.rank));
+        if (hasNewpairs) {
+          return raise();
+        }
         return call();
       }
     }
