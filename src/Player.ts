@@ -2,6 +2,7 @@ import { Card, GameState } from './interfaces/game-state';
 import { getHandValue } from './preflop/get-hand-value';
 import { isHandPairs } from './preflop/get-hand-is-pairs';
 import { isSameSuit } from './preflop/get-hand-is-same-suit';
+import { groupBy } from 'lodash';
 enum Turns {
   PREFLOP = 'preflop',
   FLOP = 'flop',
@@ -56,6 +57,12 @@ export class Player {
       default: {
         const hasNewpairs = communityCards.some(card => holeCards.some(holeCard => holeCard.rank === card.rank));
         if (hasNewpairs) {
+          return raise();
+        }
+        const numOfColors = Object.values(
+          groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
+        ).sort(x => x.length)[0].length;
+        if (numOfColors >= 4) {
           return raise();
         }
         return call();
