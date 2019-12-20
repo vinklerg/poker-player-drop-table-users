@@ -53,6 +53,7 @@ export class Player {
 
     const ourCardsOneColor = holeCards[0].suit === holeCards[1].suit;
 
+    return betCallback(maxBet + gameState.small_blind);
     if (handValue > 17 || ourCardsOneColor) {
       betCallback(gameState.pot * 0.3);
     } else if (rank || color) {
