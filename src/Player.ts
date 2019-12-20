@@ -30,19 +30,18 @@ export class Player {
 
     const maxBet = Math.max(...playerBets);
 
-    return raise();
     switch (turn) {
       case Turns.PREFLOP: {
-        break;
+        return raise();
       }
       case Turns.FLOP: {
-        break;
+        return call();
       }
       case Turns.TURN: {
-        break;
+        return call();
       }
       case Turns.RIVER: {
-        break;
+        return call();
       }
     }
   }
