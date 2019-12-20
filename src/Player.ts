@@ -20,7 +20,13 @@ export class Player {
         return holeCards.map(card => card.rank).some(cardRank => cardRank === communityCardRank);
       });
 
-    if (rank) {
+    const color = communityCards
+      .map(card => card.suit)
+      .some(communityCardRank => {
+        return holeCards.map(card => card.suit).some(cardRank => cardRank === communityCardRank);
+      });
+
+    if (rank || color) {
       betCallback(gameState['small_blind'] * 5);
     } else {
       betCallback(gameState['small_blind'] * 1);
