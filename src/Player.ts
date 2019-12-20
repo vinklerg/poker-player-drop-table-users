@@ -15,6 +15,7 @@ export class Player {
         gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.minimum_raise,
       );
 
+    return raise();
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
     const holeCards = player['hole_cards'];
