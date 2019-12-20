@@ -29,7 +29,7 @@ export class Player {
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
     const valueOfPocket = getHandValue([player.hole_cards[0], player.hole_cards[1]]);
-    if (valueOfPocket >= 11) {
+    if (valueOfPocket >= 9) {
       return betCallback(gameState.players[gameState.in_action].stack);
     }
     return betCallback(0);
