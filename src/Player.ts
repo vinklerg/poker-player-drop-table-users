@@ -13,6 +13,10 @@ export class Player {
     };
 
     const raise = () => {
+      console.log(
+        'DEBUG ',
+        gameState.current_buy_in - gameState.players[gameState.in_action].bet + gameState.minimum_raise,
+      );
       betCallback(gameState.current_buy_in - gameState.players[gameState.in_action].bet + gameState.minimum_raise);
     };
 
