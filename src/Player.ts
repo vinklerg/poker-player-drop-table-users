@@ -29,9 +29,11 @@ export class Player {
       });
 
     if (handValue > 20) {
-      betCallback(gameState['small_blind'] * 8);
+      betCallback(gameState['small_blind'] * 10);
     } else if (rank || color) {
       betCallback(gameState['small_blind'] * 5);
+    } else if (handValue < 8 && !color) {
+      betCallback(0);
     } else {
       betCallback(gameState['small_blind'] * 1);
     }
