@@ -22,7 +22,7 @@ export class Player {
 
     const maxBet = Math.max(...playerBets);
     if (maxBet > player.bet) {
-      return betCallback(maxBet - player.bet + gameState.small_blind);
+      return betCallback(maxBet + gameState.small_blind);
     }
 
     switch (turn) {
