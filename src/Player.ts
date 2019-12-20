@@ -48,6 +48,7 @@ export class Player {
       case Turns.RIVER: {
         const countPlayers = countPlayersInGame(gameState.players);
         if (countPlayers == 2) {
+          return raise();
         }
 
         const numOfColors = Object.values(
