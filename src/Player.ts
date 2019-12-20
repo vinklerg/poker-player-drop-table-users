@@ -1,8 +1,7 @@
 import { Card, GameState } from './interfaces/game-state';
 import { getHandValue } from './preflop/get-hand-value';
-import { isHandPairs } from './preflop/get-hand-is-pairs';
-import { isSameSuit } from './preflop/get-hand-is-same-suit';
 import { groupBy } from 'lodash';
+import { countPlayersInGame } from './count-players';
 enum Turns {
   PREFLOP = 'preflop',
   FLOP = 'flop',
@@ -41,29 +40,22 @@ export class Player {
     // const maxBet = Math.max(...playerBets);
 
     let valueOfPocket = getHandValue([player.hole_cards[0], player.hole_cards[1]]);
-    const pairsInPocket = isHandPairs([player.hole_cards[0], player.hole_cards[1]]);
-    const szinInpocket = isSameSuit([player.hole_cards[0], player.hole_cards[1]]);
 
     switch (turn) {
       case Turns.PREFLOP: {
-        if (pairsInPocket) {
-          if (valueOfPocket < 14) {
-            return call();
-          }
-          return raise();
+        if (valueOfPocket < 7) {
+          return betCallback(0);
         }
-        if (szinInpocket) {
-          valueOfPocket = valueOfPocket * 2;
-        }
-        if (valueOfPocket > 18 && valueOfPocket < 40) {
+        if (valueOfPocket > 7 && valueOfPocket < 10) {
           return call();
         }
-        if (valueOfPocket >= 40) {
-          return raise();
-        }
-        return betCallback(0);
+        return raise();
       }
       case Turns.RIVER: {
+        const countPlayers = countPlayersInGame(gameState.players);
+        if (countPlayers == 2) {
+        }
+
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
         ).sort(x => x.length)[0].length;
