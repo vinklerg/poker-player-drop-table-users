@@ -11,7 +11,7 @@ enum Turns {
 }
 export class Player {
   public betRequest(gameState: GameState, betCallback: (bet: number) => void): void {
-    const call = () => betCallback(gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0));
+    // const call = () => betCallback(gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0));
 
     // const raise = (times = 1) =>
     //   betCallback(
