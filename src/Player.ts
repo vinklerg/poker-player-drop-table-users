@@ -62,7 +62,7 @@ export class Player {
           return raise();
         }
         console.log('should fold 1');
-        return betCallback(0);
+        return call();
       }
       default: {
         return call();
