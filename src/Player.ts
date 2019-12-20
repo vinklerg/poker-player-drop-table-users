@@ -57,7 +57,7 @@ export class Player {
         const numOfRanks = Object.values(
           groupBy([...communityCards.map(card => card.rank), ...holeCards.map(card => card.rank)]),
         ).sort((a, b) => b.length - a.length)[0].length;
-        if (numOfColors >= 5 || numOfRanks >= 3) {
+        if (numOfColors >= 5 || numOfRanks >= 2) {
           return raisePot(1);
         }
         return call();
@@ -69,7 +69,7 @@ export class Player {
         const numOfRanks = Object.values(
           groupBy([...communityCards.map(card => card.rank), ...holeCards.map(card => card.rank)]),
         ).sort((a, b) => b.length - a.length)[0].length;
-        if (numOfColors >= 5 || numOfRanks >= 3) {
+        if (numOfColors >= 5 || numOfRanks >= 2) {
           return raisePot(1);
         }
         if (numOfColors >= 4) {
