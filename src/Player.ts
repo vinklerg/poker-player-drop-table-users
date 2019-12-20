@@ -57,7 +57,7 @@ export class Player {
     if (handValue > 17) {
       betCallback(gameState.pot * 0.3);
     } else if (rank || color) {
-      return betCallback(gameState['small_blind'] * 5);
+      return betCallback(maxBet - player.bet);
     } else {
       return betCallback(gameState['small_blind'] * 1);
     }
