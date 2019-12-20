@@ -22,7 +22,7 @@ export class Player {
 
     const maxBet = Math.max(...playerBets);
     if (maxBet > player.bet) {
-      return betCallback(maxBet - player.bet);
+      return betCallback(maxBet - player.bet + gameState.small_blind);
     }
 
     switch (turn) {
@@ -54,7 +54,9 @@ export class Player {
         return holeCards.map(card => card.suit).some(cardRank => cardRank === communityCardRank);
       });
 
-    if (handValue > 17) {
+    const ourCardsOneColor = holeCards[0].suit === holeCards[1].suit;
+
+    if (handValue > 17 || ourCardsOneColor) {
       betCallback(gameState.pot * 0.3);
     } else if (rank || color) {
       return betCallback(maxBet - player.bet);
