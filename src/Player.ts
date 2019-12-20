@@ -13,9 +13,9 @@ export class Player {
   public betRequest(gameState: GameState, betCallback: (bet: number) => void): void {
     const call = () => betCallback(gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0));
 
-    const raise = () =>
+    const raise = (times = 1) =>
       betCallback(
-        gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.minimum_raise,
+        gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.minimum_raise * times,
       );
 
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
@@ -58,7 +58,10 @@ export class Player {
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
         ).sort(x => x.length)[0].length;
-        if (numOfColors >= 5) {
+        const numOfRanks = Object.values(
+          groupBy([...communityCards.map(card => card.rank), ...holeCards.map(card => card.rank)]),
+        ).sort(x => x.length)[0].length;
+        if (numOfColors >= 5 || numOfRanks >= 3) {
           return raise();
         }
         return call();
@@ -71,7 +74,10 @@ export class Player {
         const numOfColors = Object.values(
           groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
         ).sort(x => x.length)[0].length;
-        if (numOfColors >= 4) {
+        const numOfRanks = Object.values(
+          groupBy([...communityCards.map(card => card.rank), ...holeCards.map(card => card.rank)]),
+        ).sort(x => x.length)[0].length;
+        if (numOfColors >= 4 || numOfRanks >= 3) {
           return raise();
         }
         return call();
