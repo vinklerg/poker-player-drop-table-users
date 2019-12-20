@@ -5,6 +5,9 @@ enum Turns {
   RIVER = 'river',
 }
 import { GameState } from './interfaces/game-state';
+import { getHandValue } from './preflop/get-hand-value';
+import { isHandPairs } from './preflop/get-hand-is-pairs';
+import { isSameSuit } from './preflop/get-hand-is-same-suit';
 
 export class Player {
   public betRequest(gameState: GameState, betCallback: (bet: number) => void): void {
@@ -30,9 +33,9 @@ export class Player {
 
     const maxBet = Math.max(...playerBets);
 
-    let valueOfPocket = 18;
-    const pairsInPocket = true;
-    const szinInpocket = true;
+    let valueOfPocket = getHandValue([player.hole_cards[0], player.hole_cards[1]]);
+    const pairsInPocket = isHandPairs([player.hole_cards[0], player.hole_cards[1]]);
+    const szinInpocket = isSameSuit([player.hole_cards[0], player.hole_cards[1]]);
 
     switch (turn) {
       case Turns.PREFLOP: {
