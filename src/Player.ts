@@ -8,7 +8,7 @@ export class Player {
       return !parseInt(card.rank);
     });
     if (bet) {
-      betCallback(50);
+      betCallback(gameState['small_blind'] * 5);
     } else {
       betCallback(0);
     }
