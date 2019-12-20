@@ -20,13 +20,17 @@ export class Player {
         return holeCards.map(card => card.rank).some(cardRank => cardRank === communityCardRank);
       });
 
+    const handValue = holeCards.map(card => parseInt(card.rank) || 10).reduce((acc, curr) => acc + curr, 0);
+
     const color = communityCards
       .map(card => card.suit)
       .some(communityCardRank => {
         return holeCards.map(card => card.suit).some(cardRank => cardRank === communityCardRank);
       });
 
-    if (rank || color) {
+    if (handValue > 20) {
+      betCallback(gameState['small_blind'] * 8);
+    } else if (rank || color) {
       betCallback(gameState['small_blind'] * 5);
     } else {
       betCallback(gameState['small_blind'] * 1);
