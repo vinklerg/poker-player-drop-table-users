@@ -54,6 +54,15 @@ export class Player {
         }
         return betCallback(0);
       }
+      case Turns.RIVER: {
+        const numOfColors = Object.values(
+          groupBy([...communityCards.map(card => card.suit), ...holeCards.map(card => card.suit)]),
+        ).sort(x => x.length)[0].length;
+        if (numOfColors >= 5) {
+          return raise();
+        }
+        return call();
+      }
       default: {
         const hasNewpairs = communityCards.some(card => holeCards.some(holeCard => holeCard.rank === card.rank));
         if (hasNewpairs) {
