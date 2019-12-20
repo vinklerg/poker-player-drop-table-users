@@ -18,9 +18,14 @@ export class Player {
         gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.minimum_raise * times,
       );
 
-    const raisePot = (i: number) =>
-      betCallback(gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.pot * i);
-
+    const raisePot = (i: number) => {
+      if (gameState.players[gameState.in_action].stack >= gameState.pot * i) {
+        return betCallback(
+          gameState.current_buy_in - (gameState.players[gameState.in_action].bet || 0) + gameState.pot * i,
+        );
+      }
+      return raise();
+    };
     const [player] = gameState.players.filter(player => player.name === 'DROP TABLE users');
 
     const holeCards = player['hole_cards'];
