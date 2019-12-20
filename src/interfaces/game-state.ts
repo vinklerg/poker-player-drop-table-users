@@ -28,10 +28,12 @@ export type GameState = {
   in_action: number; // The index of your player, in the players array
 
   players: Player[];
-  community_cards: {
-    rank: CardRank;
-    suit: CardSuit;
-  }[];
+  community_cards: Card[];
+};
+
+export type Card = {
+  rank: CardRank;
+  suit: CardSuit;
 };
 
 export enum PlayerStatus {
@@ -59,10 +61,7 @@ export type Player = {
   //     the chips the player bet in this round.)
 
   bet: number; // The amount of chips the player put into the pot
-  hole_cards: {
-    rank: CardRank; // Rank of the card. Possible values are numbers 2-10 and J,Q,K,A
-    suit: CardSuit; // Suit of the card. Possible values are: clubs,spades,hearts,diamonds
-  }[];
+  hole_cards: Card[];
 };
 export enum CardRank {
   R_ACE = 'A',
